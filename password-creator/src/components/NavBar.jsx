@@ -1,7 +1,21 @@
 import React, { useState } from 'react'
 
-function NavBar() {
+function NavBar(props) {
     const [search, setSearch]= useState("london")
+
+    function handleOnChange(e){
+        
+        setSearch(e.target.value) //this will set the change to state whenever a key is tapped
+    }
+
+    function keyDown(e){
+        if(e.key=="Enter"){
+            if(search.length>0){
+                props.setLocationProps(search) //this will set the location through props
+                setSearch("")
+            }
+        }
+    }
 
   return (
     <div className="navbar bg-base-100">
@@ -13,9 +27,13 @@ function NavBar() {
   </div>
   <div className="flex-none gap-1">
     <div className="form-control">
-    {/* //we need to track value of search and any change happens on search so we use value={} and onchange={} */}
+    {/* //we need to track value of search and any change happens on search so we use value={} and onchange={} expects a function */}
 
-      <input value={search} onChange={setSearch} type="text" placeholder="Search a city" className=" mr-10 input input-bordered w-24 md:w-auto" />
+      <input 
+      value={search} 
+      onKeyDown={keyDown}
+      onChange={handleOnChange} 
+      type="text" placeholder="Search a city" className=" mr-10 input input-bordered w-24 md:w-auto" />
     </div>
   </div>
 </div>
